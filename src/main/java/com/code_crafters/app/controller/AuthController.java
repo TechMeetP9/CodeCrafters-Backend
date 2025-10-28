@@ -4,6 +4,7 @@ import com.code_crafters.app.dto.request.LoginRequest;
 import com.code_crafters.app.dto.request.RegisterRequest;
 import com.code_crafters.app.dto.response.JwtResponse;
 import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.mapper.UsersMapper;
 import com.code_crafters.app.service.interfaces.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,31 @@ public class AuthController {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private UsersMapper usersMapper;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest signUpRequest) {
-        String result = usersService.register(signUpRequest);
+        try {
+            Users savedUser = usersService.register(signUpRequest);
 
-        if (result.startsWith("Error")) {
+           
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "User registered successfully");
+            response.put("user", usersMapper.toDto(savedUser)); 
+
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+
             Map<String, String> response = new HashMap<>();
-            response.put("message", result);
+            response.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+        
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error registering user");
+            return ResponseEntity.internalServerError().body(response);
         }
-
-        Map<String, String> response = new HashMap<>();
-        response.put("message", result);
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
@@ -40,16 +53,11 @@ public class AuthController {
         Optional<Users> userOpt = usersService.login(loginRequest);
 
         if (userOpt.isPresent()) {
-            Users user = userOpt.get();
-            JwtResponse response = new JwtResponse(
-                    "token-falso-por-ahora",
-                    user.getName(),
-                    user.getEmail()
-            );
-            return ResponseEntity.ok(response);
+            JwtResponse jwtResponse = usersMapper.toJwtResponse(userOpt.get());
+            return ResponseEntity.ok(jwtResponse);
         } else {
             Map<String, String> response = new HashMap<>();
-            response.put("message", "Usuario o contraseña incorrecta");
+            response.put("message", "Invalid username or password");
             return ResponseEntity.badRequest().body(response);
         }
     }

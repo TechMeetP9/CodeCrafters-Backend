@@ -8,6 +8,7 @@ import com.code_crafters.app.service.interfaces.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.code_crafters.app.mapper.UsersMapper;
 
 import java.util.Optional;
 
@@ -20,25 +21,24 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UsersMapper usersMapper; //
+
     @Override
-    public String register(RegisterRequest request) {
+    public Users register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            return "Error: El email ya está registrado";
+            throw new IllegalArgumentException("Email is already in use");
         }
 
-        Users user = Users.builder()
-                .name(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .build();
+        Users user = usersMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        userRepository.save(user);
-        return "Usuario registrado exitosamente";
+        return userRepository.save(user);
     }
 
     @Override
     public Optional<Users> login(LoginRequest request) {
-        Optional<Users> userOpt = userRepository.findByEmail(request.getUsername());
+        Optional<Users> userOpt = userRepository.findByEmail(request.getEmail());
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
             if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {

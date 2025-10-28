@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UsersService {
 
-    String register(RegisterRequest request);
+    Users register(RegisterRequest request);
 
     Optional<Users> login(LoginRequest request);
 
