@@ -1,3 +1,10 @@
+### Environment Variables ###
+.env
+.env.local
+.env.*.local
+.env.production
+
+### Application Files ###
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
@@ -31,3 +38,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Uploads and temporary files ###
+uploads/
+temp/
+*.log
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
