@@ -1,4 +1,4 @@
-package com.code_crafters.code_crafters;
+package com.code_crafters.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

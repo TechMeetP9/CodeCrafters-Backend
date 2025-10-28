@@ -1,4 +1,4 @@
-package com.code_crafters.code_crafters;
+package com.code_crafters.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
