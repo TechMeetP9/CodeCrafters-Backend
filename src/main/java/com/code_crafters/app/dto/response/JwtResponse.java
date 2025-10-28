@@ -1,4 +1,4 @@
-package com.code_crafters.app.dto;
+package com.code_crafters.app.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

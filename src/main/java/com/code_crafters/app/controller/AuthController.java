@@ -1,8 +1,8 @@
 package com.code_crafters.app.controller;
 
-import com.code_crafters.app.dto.LoginRequest;
-import com.code_crafters.app.dto.RegisterRequest;
-import com.code_crafters.app.dto.JwtResponse;
+import com.code_crafters.app.dto.request.LoginRequest;
+import com.code_crafters.app.dto.request.RegisterRequest;
+import com.code_crafters.app.dto.response.JwtResponse;
 import com.code_crafters.app.entity.Users;
 import com.code_crafters.app.service.interfaces.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;

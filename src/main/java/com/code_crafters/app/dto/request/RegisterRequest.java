@@ -1,4 +1,5 @@
-package com.code_crafters.app.dto;
+package com.code_crafters.app.dto.request;
+
 
 import lombok.Data;
 

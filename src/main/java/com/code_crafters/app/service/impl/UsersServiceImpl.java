@@ -1,9 +1,9 @@
 package com.code_crafters.app.service.impl;
 
-import com.code_crafters.app.dto.LoginRequest;
-import com.code_crafters.app.dto.RegisterRequest;
+import com.code_crafters.app.dto.request.LoginRequest;
+import com.code_crafters.app.dto.request.RegisterRequest;
 import com.code_crafters.app.entity.Users;
-import com.code_crafters.app.repository.UserRepository;
+import com.code_crafters.app.repository.UsersRepository;
 import com.code_crafters.app.service.interfaces.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UsersServiceImpl implements UsersService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,5 +46,10 @@ public class UsersServiceImpl implements UsersService {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Users> findById(Long id) {
+        return userRepository.findById(id);
     }
 }
