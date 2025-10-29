@@ -29,7 +29,6 @@ public class AuthController {
         try {
             Users savedUser = usersService.register(signUpRequest);
 
-           
             Map<String, Object> response = new HashMap<>();
             response.put("message", "User registered successfully");
             response.put("user", usersMapper.toDto(savedUser)); 
