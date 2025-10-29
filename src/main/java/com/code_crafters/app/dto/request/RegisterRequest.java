@@ -10,6 +10,10 @@ public class RegisterRequest {
     @NotBlank(message = "Name cannot be blank.")
     @Size(max = 30, message = "Name cannot exceed 30 characters.")
     private String name;
+
+    @NotBlank(message = "Username cannot be blank.")
+    @Size(max = 30, message = "Username cannot exceed 30 characters.")
+    private String username;
     
     @NotBlank(message = "Email cannot be blank.")
     @Size(max = 30, message = "Email cannot exceed 30 characters.")
