@@ -1,18 +1,9 @@
 package com.code_crafters.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,27 +12,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Users {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 30)
+    @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(name = "username", nullable = false, unique = true, length = 30)
+    @Column(nullable = false, unique = true, length = 30)
     private String username;
 
-    @Column(name = "email", nullable = false, unique = true, length = 30)
+    @Column(nullable = false, unique = true, length = 30)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 25)
+    @Column(nullable = false, length = 25)
     private String password;
 
     @Column(name = "profile_image_url", length = 200)
     private String profileImageUrl;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events;
-    
 }
