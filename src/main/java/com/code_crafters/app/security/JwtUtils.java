@@ -36,23 +36,50 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .subject(userPrincipal.getUsername())
+                .claim("userId", userPrincipal.getId()) 
+                .claim("email", userPrincipal.getEmail()) 
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey())
                 .compact();
     }
 
-    public String generateTokenFromEmail(String email) {
+    public String generateTokenFromUsername(String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         return Jwts.builder()
-                .subject(email)
+                .subject(username)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey())
                 .compact();
     }
+
+    public String getUsernameFromJwtToken(String token) {
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+
+    public Long getUserIdFromJwtToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        
+        Object userId = claims.get("userId");
+        if (userId instanceof Integer) {
+            return ((Integer) userId).longValue();
+        }
+        return (Long) userId;
+    }
+
 
     public String getEmailFromJwtToken(String token) {
         return Jwts.parser()
@@ -60,7 +87,7 @@ public class JwtUtils {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .getSubject();
+                .get("email", String.class);
     }
 
     public boolean validateJwtToken(String authToken) {
@@ -71,15 +98,15 @@ public class JwtUtils {
                     .parseSignedClaims(authToken);
             return true;
         } catch (MalformedJwtException e) {
-            logger.error("Token JWT invalid: {}", e.getMessage());
+            logger.error("Invalid Token JWT {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            logger.error("Token JWT expired: {}", e.getMessage());
+            logger.error("Expired Token JWT: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("Token JWT unsupported: {}", e.getMessage());
+            logger.error("Unsupported Token JWT: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         } catch (io.jsonwebtoken.security.SignatureException e) {
-            logger.error("Signature JWT invalid: {}", e.getMessage());
+            logger.error("Invalid signature JWT: {}", e.getMessage());
         }
         return false;
     }
@@ -94,7 +121,11 @@ public class JwtUtils {
     }
 
     public boolean isTokenExpired(String token) {
-        Date expiration = getExpirationDateFromJwtToken(token);
-        return expiration.before(new Date());
+        try {
+            Date expiration = getExpirationDateFromJwtToken(token);
+            return expiration.before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 }
