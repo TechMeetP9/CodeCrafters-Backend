@@ -1,5 +1,19 @@
 package com.code_crafters.app.dto.response;
 
+import lombok.*;
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EventsResponse {
-    
+    private Long id;
+    private String title;
+    private String description;
+    private String location;
+    private LocalDateTime dateTime;
+    private Integer capacity;
+    private String category;
+    private Long userId;
 }
