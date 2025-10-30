@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import com.code_crafters.app.entity.Events; 
 
 @Entity
 @Table(name = "users")
@@ -34,5 +35,5 @@ public class Users {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Event> events;
+    private List<Events> events;
 }

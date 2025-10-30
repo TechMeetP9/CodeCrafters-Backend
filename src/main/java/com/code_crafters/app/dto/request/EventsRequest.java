@@ -1,6 +1,9 @@
 package com.code_crafters.app.dto.request;
 
-import lombok.Data.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Data
 @NoArgsConstructor
