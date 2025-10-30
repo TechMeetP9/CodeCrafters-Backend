@@ -40,4 +40,8 @@ public class Users {
     @Column(name = "profile_image_url", length = 200)
     private String profileImageUrl;
     
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events;
+    
 }
