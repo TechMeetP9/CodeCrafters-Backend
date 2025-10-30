@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EventsResponse {
+public class EventResponse {
     private Long id;
     private String title;
     private String description;
     private String location;
     private LocalDateTime dateTime;
     private Integer capacity;
-    private String category;
-    private Long userId;
-}
+    private Long categoryId; 
+    private String categoryName; 
+    private Long userId; 

@@ -1,23 +1,30 @@
 package com.code_crafters.app.mapper;
 
 import com.code_crafters.app.dto.request.EventsRequest;
-import com.code_crafters.app.dto.response.EventsResponse;
+import com.code_crafters.app.dto.response.EventResponse;
+import com.code_crafters.app.entity.Category;
 import com.code_crafters.app.entity.Events;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import com.code_crafters.app.repository.CategoryRepository;
+import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public interface EventsMapper {
+public abstract class EventsMapper {
+
+    @Autowired
+    protected CategoryRepository categoryRepository;
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    @Mapping(target = "attendees", ignore = true)
-    Events toEntity(EventsRequest dto);
+    @Mapping(target = "category", expression = "java(categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException(\"Category not found\")))")
+    public abstract Events toEntity(EventsRequest dto);
 
     @Mapping(target = "userId", source = "creator.id")
-    @Mapping(target = "category", source = "category.name")
-    EventsResponse toDto(Events event);
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "categoryName", source = "category.name")
+    public abstract EventResponse toDto(Events event);
 
-    void updateEntityFromDto(EventsRequest dto, @MappingTarget Events entity);
+    @Mapping(target = "creator", ignore = true)
+    @Mapping(target = "category", expression = "java(categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException(\"Category not found\")))")
+    public abstract void updateEntityFromDto(EventsRequest dto, @MappingTarget Events entity);
 }

@@ -13,6 +13,6 @@ public class EventsRequest {
     private String location;
     private LocalDateTime dateTime;
     private Integer capacity;
-    private String category;
-    private Long userId;
+    private Long categoryId; 
+    private Long userId; 
 }
