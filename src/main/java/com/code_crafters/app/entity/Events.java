@@ -1,34 +1,24 @@
 package com.code_crafters.app.entity;
 
-import java.math.BigInteger;
+import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.catalina.User;
-import ch.qos.logback.core.spi.ConfigurationEvent.EventType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 
 @Entity
-@jakarta.persistence.Table(name = "events")
-
+@Table(name = "events")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Events {
-    
-    @Id
-    @GeneratedValue
-    private BigInteger eventId;
 
-    @Column(nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 100)
     private String title;
 
     @Column(columnDefinition = "TEXT")
@@ -36,8 +26,9 @@ public class Events {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EventType category;
+    private EventCategory category;
 
+    @Column(length = 100)
     private String location;
 
     @Column(nullable = false)
@@ -45,9 +36,9 @@ public class Events {
 
     private Integer capacity;
 
-    @OneToMany
-    @JoinColumn(name = "created_by", nullable = false)
-    private User creator;
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Users creator;
 
     @ManyToMany
     @JoinTable(
@@ -55,27 +46,22 @@ public class Events {
         joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> attendees = new HashSet<>();
+    private Set<Users> attendees = new HashSet<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
-    
 }
-
-
-

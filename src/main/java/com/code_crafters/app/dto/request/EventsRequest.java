@@ -1,9 +1,7 @@
 package com.code_crafters.app.dto.request;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -12,5 +10,9 @@ import lombok.Builder;
 public class EventsRequest {
     private String title;
     private String description;
-    private Long userId; 
+    private String location;
+    private LocalDateTime dateTime;
+    private Integer capacity;
+    private String category;
+    private Long userId;
 }
