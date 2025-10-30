@@ -3,6 +3,7 @@ package com.code_crafters.app.service.implement;
 import com.code_crafters.app.dto.request.EventsRequest;
 import com.code_crafters.app.entity.Category;
 import com.code_crafters.app.entity.Events;
+import com.code_crafters.app.entity.Users;
 import com.code_crafters.app.mapper.EventsMapper;
 import com.code_crafters.app.repository.CategoryRepository;
 import com.code_crafters.app.repository.EventsRepository;
@@ -25,7 +26,7 @@ public class EventsServiceImpl implements EventsService {
 
         @Override
         public Events createEvent(EventsRequest request) {
-                var user = usersRepository.findById(request.getUserId())
+                Users user = usersRepository.findById(request.getUserId())
                                 .orElseThrow(() -> new IllegalArgumentException(
                                                 "User not found with ID: " + request.getUserId()));
 
@@ -55,17 +56,14 @@ public class EventsServiceImpl implements EventsService {
                 Events existingEvent = eventsRepository.findById(id)
                                 .orElseThrow(() -> new IllegalArgumentException("Event not found with ID: " + id));
 
-                var user = usersRepository.findById(request.getUserId())
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "User not found with ID: " + request.getUserId()));
-
-                Category category = categoryRepository.findById(request.getCategoryId())
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "Category not found with ID: " + request.getCategoryId()));
-
                 eventsMapper.updateEntityFromDto(request, existingEvent);
-                existingEvent.setCreator(user);
-                existingEvent.setCategory(category);
+
+                if (request.getCategoryId() != null) {
+                        Category category = categoryRepository.findById(request.getCategoryId())
+                                        .orElseThrow(() -> new IllegalArgumentException(
+                                                        "Category not found with ID: " + request.getCategoryId()));
+                        existingEvent.setCategory(category);
+                }
 
                 return eventsRepository.save(existingEvent);
         }
@@ -74,7 +72,6 @@ public class EventsServiceImpl implements EventsService {
         public void deleteEvent(Long id) {
                 Events event = eventsRepository.findById(id)
                                 .orElseThrow(() -> new IllegalArgumentException("Event not found with ID: " + id));
-
                 eventsRepository.delete(event);
         }
 }

@@ -1,27 +1,24 @@
 package com.code_crafters.app.controller;
 
 import com.code_crafters.app.dto.request.EventsRequest;
-import com.code_crafters.app.dto.response.EventsResponse;
+import com.code_crafters.app.dto.response.EventResponse;
 import com.code_crafters.app.entity.Events;
 import com.code_crafters.app.mapper.EventsMapper;
 import com.code_crafters.app.service.interfaces.EventsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/events")
+@RequiredArgsConstructor
 public class EventsController {
 
-    @Autowired
-    private EventsService eventsService;
-
-    @Autowired
-    private EventsMapper eventsMapper;
+    private final EventsService eventsService;
+    private final EventsMapper eventsMapper;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {
@@ -31,8 +28,8 @@ public class EventsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EventsResponse>> getAllEvents() {
-        List<EventsResponse> events = eventsService.findAll()
+    public ResponseEntity<List<EventResponse>> getAllEvents() {
+        List<EventResponse> events = eventsService.findAll()
                 .stream()
                 .map(eventsMapper::toDto)
                 .collect(Collectors.toList());
