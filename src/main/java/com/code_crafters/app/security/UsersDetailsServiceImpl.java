@@ -1,6 +1,6 @@
 package com.code_crafters.app.security;
 
-import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.entity.User;
 import com.code_crafters.app.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ public class UsersDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = usersRepository.findByUsername(username)
+        User user = usersRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "User not found with username: " + username
                 ));
@@ -28,7 +28,7 @@ public class UsersDetailsServiceImpl implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        Users user = usersRepository.findByEmail(email)
+        User user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "User not found with email: " + email
                 ));

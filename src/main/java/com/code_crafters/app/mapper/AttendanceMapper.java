@@ -14,6 +14,7 @@ public class AttendanceMapper {
                 .userId(attendance.getUser().getId())
                 .eventId(attendance.getEvent().getId())
                 .userName(attendance.getUser().getName())      
-                .eventName(attendance.getEvent().getTitle());   
+                .eventName(attendance.getEvent().getTitle())
+                .build();   
     }
 }

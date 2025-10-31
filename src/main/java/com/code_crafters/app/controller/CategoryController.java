@@ -11,6 +11,7 @@ import com.code_crafters.app.entity.Category;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,7 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         return categoryService.findById(id)
                 .<ResponseEntity<?>>map(cat -> ResponseEntity.ok(categoryMapper.toDto(cat)))
                 .orElseGet(() -> ResponseEntity.status(404).body(Map.of("message", "Category not found")));
@@ -48,7 +49,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryRequest request) {
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody CategoryRequest request) {
         try {
             Category updated = categoryService.update(id, request);
             return ResponseEntity.ok(categoryMapper.toDto(updated));
@@ -58,7 +59,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         try {
             categoryService.delete(id);
             return ResponseEntity.ok(Map.of("message", "Category deleted successfully"));

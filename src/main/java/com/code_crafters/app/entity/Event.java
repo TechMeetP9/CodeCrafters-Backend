@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "events")
@@ -16,8 +19,10 @@ import java.util.Set;
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false, length = 150)
     private String title;
@@ -53,7 +58,7 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private Users creator;
+    private User creator;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -61,7 +66,7 @@ public class Event {
         joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<Users> attendees = new HashSet<>();
+    private Set<User> attendees = new HashSet<>();
 
     @Column(nullable = false, updatable = false)
     private java.time.LocalDateTime createdAt;

@@ -1,5 +1,7 @@
 package com.code_crafters.app.dto.response;
 
+import java.util.UUID;
+
 import lombok.*;
 
 @Data
@@ -7,6 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class LocationResponse {
-    private Long id;
+    private UUID id;
     private String name;
 }

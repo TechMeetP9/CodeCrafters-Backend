@@ -1,6 +1,6 @@
 package com.code_crafters.app.security;
 
-import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,24 +11,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersDetailsImpl implements UserDetails {
 
-    private Long id;
+    private UUID id;
     private String name;
     private String username;
     private String email;
-    
     @JsonIgnore
     private String password;
-    
     private String profileImageUrl;
 
 
-    public static UsersDetailsImpl build(Users user) {
+    public static UsersDetailsImpl build(User user) {
         return new UsersDetailsImpl(
             user.getId(),
             user.getName(),

@@ -3,7 +3,7 @@ package com.code_crafters.app.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.entity.User;
 import com.code_crafters.app.dto.request.RegisterRequest;
 import com.code_crafters.app.dto.request.UpdateUserRequest;
 import com.code_crafters.app.dto.response.JwtResponse;
@@ -14,13 +14,13 @@ public interface UsersMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
-    Users toEntity(RegisterRequest dto);
+    User toEntity(RegisterRequest dto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
-    void updateEntityFromDto(UpdateUserRequest dto, @MappingTarget Users user);
+    void updateEntityFromDto(UpdateUserRequest dto, @MappingTarget User user);
 
-    UsersResponse toDto(Users user);
+    UsersResponse toDto(User user);
 
-    JwtResponse toJwtResponse(Users user);
+    JwtResponse toJwtResponse(User user);
 }

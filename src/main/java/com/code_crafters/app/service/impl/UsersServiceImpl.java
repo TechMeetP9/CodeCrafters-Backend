@@ -3,7 +3,7 @@ package com.code_crafters.app.service.impl;
 import com.code_crafters.app.dto.request.LoginRequest;
 import com.code_crafters.app.dto.request.RegisterRequest;
 import com.code_crafters.app.dto.request.UpdateUserRequest;
-import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.entity.User;
 import com.code_crafters.app.exception.BadRequestException;
 import com.code_crafters.app.exception.ResourceNotFoundException;
 import com.code_crafters.app.exception.UnauthorizedException;
@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -31,7 +32,7 @@ public class UsersServiceImpl implements UsersService {
     private UsersMapper usersMapper;
 
     @Override
-    public Users register(RegisterRequest request) {
+    public User register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new BadRequestException("Email is already in use");
         }
@@ -39,14 +40,14 @@ public class UsersServiceImpl implements UsersService {
             throw new BadRequestException("Username is already in use");
         }
 
-        Users user = usersMapper.toEntity(request);
+        User user = usersMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
-    public Optional<Users> login(LoginRequest request) {
-        Optional<Users> userOpt = userRepository.findByEmail(request.getEmail());
+    public Optional<User> login(LoginRequest request) {
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
         if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
             return userOpt;
         }
@@ -54,13 +55,13 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Optional<Users> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public Users updateUser(Long id, UpdateUserRequest request) {
-        Users user = userRepository.findById(id)
+    public User updateUser(UUID id, UpdateUserRequest request) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         usersMapper.updateEntityFromDto(request, user);
@@ -73,8 +74,8 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void deleteUser(Long id) {
-        Users user = userRepository.findById(id)
+    public void deleteUser(UUID id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

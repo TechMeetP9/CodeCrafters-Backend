@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> findById(Long id) {
+    public Optional<Category> findById(UUID id) {
         return categoryRepository.findById(id);
     }
 
@@ -39,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category update(Long id, CategoryRequest request) {
+    public Category update(UUID id, CategoryRequest request) {
         Category existing = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with ID: " + id));
 
@@ -48,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         Category existing = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with ID: " + id));
         categoryRepository.delete(existing);

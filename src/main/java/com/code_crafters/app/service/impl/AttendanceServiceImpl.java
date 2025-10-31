@@ -4,7 +4,7 @@ import com.code_crafters.app.dto.request.AttendanceRequest;
 import com.code_crafters.app.dto.response.AttendanceResponse;
 import com.code_crafters.app.entity.Attendance;
 import com.code_crafters.app.entity.Event;
-import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.entity.User;
 import com.code_crafters.app.mapper.AttendanceMapper;
 import com.code_crafters.app.repository.AttendanceRepository;
 import com.code_crafters.app.repository.EventsRepository;
@@ -29,7 +29,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public AttendanceResponse registerAttendance(AttendanceRequest request) {
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         Event event = eventsRepository.findById(request.getEventId())
                 .orElseThrow(() -> new EntityNotFoundException("Event not found"));
@@ -50,7 +50,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void unregisterAttendance(AttendanceRequest request) {
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         Event event = eventsRepository.findById(request.getEventId())
                 .orElseThrow(() -> new EntityNotFoundException("Event not found"));

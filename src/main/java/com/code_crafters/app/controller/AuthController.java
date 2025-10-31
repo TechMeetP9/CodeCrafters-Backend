@@ -3,7 +3,7 @@ package com.code_crafters.app.controller;
 import com.code_crafters.app.dto.request.LoginRequest;
 import com.code_crafters.app.dto.request.RegisterRequest;
 import com.code_crafters.app.dto.response.JwtResponse;
-import com.code_crafters.app.entity.Users;
+import com.code_crafters.app.entity.User;
 import com.code_crafters.app.mapper.UsersMapper;
 import com.code_crafters.app.service.interfaces.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest signUpRequest) {
         try {
-            Users savedUser = usersService.register(signUpRequest);
+            User savedUser = usersService.register(signUpRequest);
 
             Map<String, Object> response = new HashMap<>();
             response.put("message", "User registered successfully");
@@ -49,7 +49,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Optional<Users> userOpt = usersService.login(loginRequest);
+        Optional<User> userOpt = usersService.login(loginRequest);
 
         if (userOpt.isPresent()) {
             JwtResponse jwtResponse = usersMapper.toJwtResponse(userOpt.get());
