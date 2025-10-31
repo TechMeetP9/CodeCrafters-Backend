@@ -1,4 +1,4 @@
-package com.code_crafters.app.service;
+package com.code_crafters.app.service.interfaces;
 
 import com.code_crafters.app.dto.request.LocationRequest;
 import com.code_crafters.app.dto.response.LocationResponse;

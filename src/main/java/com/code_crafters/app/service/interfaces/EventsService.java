@@ -1,20 +1,20 @@
 package com.code_crafters.app.service.interfaces;
 
 import com.code_crafters.app.dto.request.EventsRequest;
-import com.code_crafters.app.entity.Events;
+import com.code_crafters.app.entity.Event;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EventsService {
 
-    Events createEvent(EventsRequest request);
+    Event createEvent(EventsRequest request);
 
-    Optional<Events> findById(Long id);
+    Optional<Event> findById(Long id);
 
-    List<Events> findAll();
+    List<Event> findAll();
 
-    Events updateEvent(Long id, EventsRequest request);
+    Event updateEvent(Long id, EventsRequest request);
 
     void deleteEvent(Long id);
 }

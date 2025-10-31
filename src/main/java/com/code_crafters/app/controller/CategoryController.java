@@ -7,6 +7,7 @@ import com.code_crafters.app.service.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.code_crafters.app.entity.Category;
 
 import java.util.List;
 import java.util.Map;

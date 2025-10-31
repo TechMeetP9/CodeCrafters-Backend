@@ -23,7 +23,7 @@ public class Attendance {
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    private Events event;
+    private Event event;
 
     @Column(nullable = false)
     private LocalDateTime joinedAt;

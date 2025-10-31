@@ -2,7 +2,7 @@ package com.code_crafters.app.service.impl;
 
 import com.code_crafters.app.dto.request.EventsRequest;
 import com.code_crafters.app.entity.Category;
-import com.code_crafters.app.entity.Events;
+import com.code_crafters.app.entity.Event;
 import com.code_crafters.app.entity.Users;
 import com.code_crafters.app.mapper.EventsMapper;
 import com.code_crafters.app.repository.CategoryRepository;
@@ -25,7 +25,7 @@ public class EventsServiceImpl implements EventsService {
         private final EventsMapper eventsMapper;
 
         @Override
-        public Events createEvent(EventsRequest request) {
+        public Event createEvent(EventsRequest request) {
                 Users user = usersRepository.findById(request.getUserId())
                                 .orElseThrow(() -> new IllegalArgumentException(
                                                 "User not found with ID: " + request.getUserId()));
@@ -34,7 +34,7 @@ public class EventsServiceImpl implements EventsService {
                                 .orElseThrow(() -> new IllegalArgumentException(
                                                 "Category not found with ID: " + request.getCategoryId()));
 
-                Events event = eventsMapper.toEntity(request);
+                Event event = eventsMapper.toEntity(request);
                 event.setCreator(user);
                 event.setCategory(category);
 
@@ -42,18 +42,18 @@ public class EventsServiceImpl implements EventsService {
         }
 
         @Override
-        public Optional<Events> findById(Long id) {
+        public Optional<Event> findById(Long id) {
                 return eventsRepository.findById(id);
         }
 
         @Override
-        public List<Events> findAll() {
+        public List<Event> findAll() {
                 return eventsRepository.findAll();
         }
 
         @Override
-        public Events updateEvent(Long id, EventsRequest request) {
-                Events existingEvent = eventsRepository.findById(id)
+        public Event updateEvent(Long id, EventsRequest request) {
+                Event existingEvent = eventsRepository.findById(id)
                                 .orElseThrow(() -> new IllegalArgumentException("Event not found with ID: " + id));
 
                 eventsMapper.updateEntityFromDto(request, existingEvent);
@@ -70,7 +70,7 @@ public class EventsServiceImpl implements EventsService {
 
         @Override
         public void deleteEvent(Long id) {
-                Events event = eventsRepository.findById(id)
+                Event event = eventsRepository.findById(id)
                                 .orElseThrow(() -> new IllegalArgumentException("Event not found with ID: " + id));
                 eventsRepository.delete(event);
         }

@@ -2,7 +2,7 @@ package com.code_crafters.app.controller;
 
 import com.code_crafters.app.dto.request.EventsRequest;
 import com.code_crafters.app.dto.response.EventResponse;
-import com.code_crafters.app.entity.Events;
+import com.code_crafters.app.entity.Event;
 import com.code_crafters.app.mapper.EventsMapper;
 import com.code_crafters.app.service.interfaces.EventsService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class EventsController {
     @PostMapping
     public ResponseEntity<?> createEvent(@RequestBody EventsRequest request) {
         try {
-            Events created = eventsService.createEvent(request);
+            Event created = eventsService.createEvent(request);
             return ResponseEntity.ok(eventsMapper.toDto(created));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
@@ -51,7 +51,7 @@ public class EventsController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody EventsRequest request) {
         try {
-            Events updated = eventsService.updateEvent(id, request);
+            Event updated = eventsService.updateEvent(id, request);
             return ResponseEntity.ok(eventsMapper.toDto(updated));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));

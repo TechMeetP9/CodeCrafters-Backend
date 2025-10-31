@@ -2,7 +2,7 @@ package com.code_crafters.app.controller;
 
 import com.code_crafters.app.dto.request.LocationRequest;
 import com.code_crafters.app.dto.response.LocationResponse;
-import com.code_crafters.app.service.LocationService;
+import com.code_crafters.app.service.interfaces.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

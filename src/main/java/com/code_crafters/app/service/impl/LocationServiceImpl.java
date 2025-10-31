@@ -5,7 +5,7 @@ import com.code_crafters.app.dto.response.LocationResponse;
 import com.code_crafters.app.entity.Location;
 import com.code_crafters.app.mapper.LocationMapper;
 import com.code_crafters.app.repository.LocationRepository;
-import com.code_crafters.app.service.LocationService;
+import com.code_crafters.app.service.interfaces.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
