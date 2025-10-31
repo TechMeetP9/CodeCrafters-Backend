@@ -1,15 +1,14 @@
 package com.code_crafters.app.mapper;
 
-import org.mapstruct.Mapper;
-
 import com.code_crafters.app.dto.request.LocationRequest;
 import com.code_crafters.app.dto.response.LocationResponse;
+import com.code_crafters.app.entity.Location;
+import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "Spring")
-public class LocationMapper {
+@Mapper(componentModel = "spring")
+public interface LocationMapper {
 
-    Location toEntity(LocationRequest);
+    Location toEntity(LocationRequest dto);
 
     LocationResponse toDto(Location entity);
-
 }

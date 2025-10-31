@@ -19,7 +19,11 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public Category createCategory(CategoryRequest request) {
+    public Category create(CategoryRequest request) {
+        categoryRepository.findByName(request.getName()).ifPresent(c -> {
+            throw new IllegalArgumentException("Category already exists: " + c.getName());
+        });
+
         Category category = categoryMapper.toEntity(request);
         return categoryRepository.save(category);
     }
@@ -35,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long id, CategoryRequest request) {
+    public Category update(Long id, CategoryRequest request) {
         Category existing = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with ID: " + id));
 
@@ -44,9 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) {
-        Category category = categoryRepository.findById(id)
+    public void delete(Long id) {
+        Category existing = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with ID: " + id));
-        categoryRepository.delete(category);
+        categoryRepository.delete(existing);
     }
 }
