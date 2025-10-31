@@ -164,77 +164,85 @@ CODECRAFTERS-BACKEND/
 │       └── maven-wrapper.properties
 │
 ├── src/
-│   └── main/
-│       ├── java/com/code_crafters/app/
-│       │   ├── controller/
-│       │   │   ├── AuthController.java
-│       │   │   ├── UsersController.java 
-│       │   │   ├── EventsController.java 
-│       │   │   └── AttendanceController.java
-│       │   │
-│       │   ├── dto/
-│       │   │   ├── request/
-│       │   │   │   ├── LoginRequest.java
-│       │   │   │   ├── RegisterRequest.java
-│       │   │   │   ├── EventsRequest.java 
-│       │   │   │   └── AttendanceRequest.java
-│       │   │   └── response/
-│       │   │       ├── JwtResponse.java
-│       │   │       ├── UsersResponse.java 
-│       │   │       ├── EventsResponse.java 
-│       │   │       └── AttendanceResponse.java
-│       │   │
-│       │   ├── entity/
-│       │   │   ├── Users.java 
-│       │   │   ├── Events.java 
-│       │   │   └── Attendance.java
-│       │   │
-│       │   ├── exception/
-│       │   │   ├── GlobalExceptionHandler.java
-│       │   │   ├── ResourceNotFoundException.java
-│       │   │   ├── BadRequestException.java
-│       │   │   └── UnauthorizedException.java
-│       │   │
-│       │   ├── mapper/
-│       │   │   ├── UsersMapper.java 
-│       │   │   ├── EventsMapper.java 
-│       │   │   └── AttendanceMapper.java
-│       │   │
-│       │   ├── repository/
-│       │   │   ├── UsersRepository.java 
-│       │   │   ├── EventsRepository.java 
-│       │   │   └── AttendanceRepository.java
-│       │   │
-│       │   ├── security/
-│       │   │   ├── JwtAuthFilter.java
-│       │   │   ├── JwtUtils.java
-│       │   │   ├── UsersDetailsImpl.java 
-│       │   │   ├── UsersDetailsServiceImpl.java 
-│       │   │   └── WebSecurityConfig.java
-│       │   │
-│       │   ├── service/
-│       │   │   ├── interfaces/
-│       │   │   │   ├── UsersService.java 
-│       │   │   │   ├── EventsService.java 
-│       │   │   │   └── AttendanceService.java
-│       │   │   └── impl/
-│       │   │       ├── UsersServiceImpl.java 
-│       │   │       ├── EventsServiceImpl.java 
-│       │   │       └── AttendanceServiceImpl.java
-│       │   │
-│       │   ├── util/
-│       │   │   └── DateUtils.java
-│       │   │
-│       │   └── CodeCraftersApplication.java 
-│       │
-│       └── resources/
-│           ├── application.properties
-│           ├── data.sql
-│           └── schema.sql
-│
-├── test/
-│   └── java/com/code_crafters/app/ 
-│       └── CodeCraftersApplicationTests.java
+│   ├── main/
+│   │   ├── java/com/code_crafters/app/
+│   │   │   ├── controller/
+│   │   │   │   ├── AuthController.java
+│   │   │   │   ├── UsersController.java 
+│   │   │   │   ├── EventsController.java 
+│   │   │   │   ├── AttendanceController.java
+│   │   │   │   └── CategoryController.java
+│   │   │   │
+│   │   │   ├── dto/
+│   │   │   │   ├── request/
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── RegisterRequest.java
+│   │   │   │   │   ├── EventsRequest.java 
+│   │   │   │   │   ├── AttendanceRequest.java
+│   │   │   │   │   └── CategoryRequest.java
+│   │   │   │   └── response/
+│   │   │   │       ├── JwtResponse.java
+│   │   │   │       ├── UsersResponse.java 
+│   │   │   │       ├── EventsResponse.java 
+│   │   │   │       ├── AttendanceResponse.java
+│   │   │   │       └── CategoryResponse.java
+│   │   │   │
+│   │   │   ├── entity/
+│   │   │   │   ├── Users.java 
+│   │   │   │   ├── Events.java 
+│   │   │   │   ├── Attendance.java
+│   │   │   │   └── Category.java
+│   │   │   │
+│   │   │   ├── exception/
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── ResourceNotFoundException.java
+│   │   │   │   ├── BadRequestException.java
+│   │   │   │   └── UnauthorizedException.java
+│   │   │   │
+│   │   │   ├── mapper/
+│   │   │   │   ├── UsersMapper.java 
+│   │   │   │   ├── EventsMapper.java 
+│   │   │   │   ├── AttendanceMapper.java
+│   │   │   │   └── CategoryMapper.java
+│   │   │   │
+│   │   │   ├── repository/
+│   │   │   │   ├── UsersRepository.java 
+│   │   │   │   ├── EventsRepository.java 
+│   │   │   │   ├── AttendanceRepository.java
+│   │   │   │   └── CategoryRepository.java
+│   │   │   │
+│   │   │   ├── security/
+│   │   │   │   ├── JwtAuthFilter.java
+│   │   │   │   ├── JwtUtils.java
+│   │   │   │   ├── UsersDetailsImpl.java 
+│   │   │   │   ├── UsersDetailsServiceImpl.java 
+│   │   │   │   └── WebSecurityConfig.java
+│   │   │   │
+│   │   │   ├── service/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── UsersService.java 
+│   │   │   │   │   ├── EventsService.java 
+│   │   │   │   │   ├── AttendanceService.java
+│   │   │   │   │   └── CategoryService.java
+│   │   │   │   └── impl/
+│   │   │   │       ├── UsersServiceImpl.java 
+│   │   │   │       ├── EventsServiceImpl.java 
+│   │   │   │       ├── AttendanceServiceImpl.java
+│   │   │   │       └── CategoryServiceImpl.java
+│   │   │   │
+│   │   │   ├── util/
+│   │   │   │   └── DateUtils.java
+│   │   │   │
+│   │   │   └── CodeCraftersApplication.java 
+│   │   │
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── data.sql
+│   │       └── schema.sql
+│   │
+│   └── test/
+│       └── java/com/code_crafters/app/ 
+│           └── CodeCraftersApplicationTests.java
 │
 ├── target/
 ├── .env
@@ -283,3 +291,4 @@ El proyecto se desarrolló bajo **metodología ágil (Scrum)** en un sprint de d
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT.
+
