@@ -1,4 +1,4 @@
-package com.code_crafters.app.service.implement;
+package com.code_crafters.app.service.impl;
 
 import com.code_crafters.app.dto.request.EventsRequest;
 import com.code_crafters.app.entity.Category;

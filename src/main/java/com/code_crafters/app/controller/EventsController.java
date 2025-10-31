@@ -23,8 +23,8 @@ public class EventsController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {
         return eventsService.findById(id)
-                .map(event -> ResponseEntity.ok(eventsMapper.toDto(event)))
-                .orElse(ResponseEntity.status(404).body(Map.of("message", "Event not found")));
+                .<ResponseEntity<?>>map(event -> ResponseEntity.ok(eventsMapper.toDto(event)))
+                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("message", "Event not found")));
     }
 
     @GetMapping

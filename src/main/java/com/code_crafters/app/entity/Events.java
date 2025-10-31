@@ -30,7 +30,7 @@ public class Events {
 
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
+    private String location;
 
     @Column(nullable = false)
     private LocalDateTime dateTime;

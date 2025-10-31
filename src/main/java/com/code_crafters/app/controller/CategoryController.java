@@ -24,8 +24,8 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
         return categoryService.findById(id)
-                .map(cat -> ResponseEntity.ok(categoryMapper.toDto(cat)))
-                .orElse(ResponseEntity.status(404).body(Map.of("message", "Category not found")));
+                .<ResponseEntity<?>>map(cat -> ResponseEntity.ok(categoryMapper.toDto(cat)))
+                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("message", "Category not found")));
     }
 
     @GetMapping
