@@ -28,8 +28,9 @@ public class Events {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(length = 100)
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     @Column(nullable = false)
     private LocalDateTime dateTime;
