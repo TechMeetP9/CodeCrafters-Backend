@@ -4,17 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "locations")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 15)
+    @Column(nullable = false, unique = true, length = 50)
     private String name;
 }
