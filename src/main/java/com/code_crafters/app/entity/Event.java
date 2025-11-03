@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -60,28 +59,23 @@ public class Event {
     @JoinColumn(name = "user_id", nullable = false)
     private User creator;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "event_attendees",
-        joinColumns = @JoinColumn(name = "event_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> attendees = new HashSet<>();
-
     @Column(nullable = false, updatable = false)
-    private java.time.LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    private java.time.LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
         createdAt = now;
         updatedAt = now;
+        if (currentAttendees == null) {
+            currentAttendees = 0;
+        }
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = java.time.LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 }

@@ -7,6 +7,7 @@ import com.code_crafters.app.entity.Event;
 import com.code_crafters.app.entity.Location;
 import com.code_crafters.app.entity.User;
 import com.code_crafters.app.mapper.EventsMapper;
+import com.code_crafters.app.repository.AttendanceRepository;
 import com.code_crafters.app.repository.CategoryRepository;
 import com.code_crafters.app.repository.EventsRepository;
 import com.code_crafters.app.repository.LocationRepository;
@@ -15,6 +16,7 @@ import com.code_crafters.app.service.interfaces.EventsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +30,11 @@ public class EventsServiceImpl implements EventsService {
     private final UsersRepository usersRepository;
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
+    private final AttendanceRepository attendanceRepository;
     private final EventsMapper eventsMapper;
 
     @Override
+    @Transactional
     public EventResponse createEvent(EventsRequest request) {
         User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + request.getUserId()));
@@ -45,22 +49,26 @@ public class EventsServiceImpl implements EventsService {
         event.setCreator(user);
         event.setCategory(category);
         event.setLocation(location);
+        event.setCurrentAttendees(0); // Inicializar en 0
 
         Event savedEvent = eventsRepository.save(event);
         return eventsMapper.toDto(savedEvent);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Event> findById(UUID id) {
         return eventsRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findAll() {
         return eventsRepository.findAll();
     }
 
     @Override
+    @Transactional
     public EventResponse updateEvent(UUID id, EventsRequest request) {
         Event existingEvent = eventsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Event not found with ID: " + id));
@@ -84,9 +92,13 @@ public class EventsServiceImpl implements EventsService {
     }
 
     @Override
+    @Transactional
     public void deleteEvent(UUID id) {
         Event event = eventsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Event not found with ID: " + id));
+        
+        attendanceRepository.deleteAllByEvent(event);
+        
         eventsRepository.delete(event);
     }
 }
