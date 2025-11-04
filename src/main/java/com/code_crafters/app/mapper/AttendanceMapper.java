@@ -1,6 +1,6 @@
 package com.code_crafters.app.mapper;
 
-import com.code_crafters.app.dto.request.AttendanceRequest;
+
 import com.code_crafters.app.dto.response.AttendanceResponse;
 import com.code_crafters.app.entity.Attendance;
 import org.springframework.stereotype.Component;

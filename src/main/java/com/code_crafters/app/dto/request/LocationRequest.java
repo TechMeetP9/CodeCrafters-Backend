@@ -8,4 +8,5 @@ import lombok.*;
 @Builder
 public class LocationRequest {
     private String name;
+    private String address;
 }

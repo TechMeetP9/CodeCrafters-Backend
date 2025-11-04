@@ -11,4 +11,5 @@ import lombok.*;
 public class LocationResponse {
     private UUID id;
     private String name;
+    private String address;
 }

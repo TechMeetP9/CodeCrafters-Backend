@@ -28,11 +28,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private final UsersDetailsServiceImpl userDetailsService;
-    private final JwtAuthFilter jwtAuthFilter;
+private final UsersDetailsServiceImpl userDetailsService;
+private final JwtAuthFilter jwtAuthFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -54,29 +54,29 @@ public class WebSecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();
-    }
+}
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+@Bean
+public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
-    }
+}
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
-            throws Exception {
+@Bean
+public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
+        throws Exception {
         return authConfig.getAuthenticationManager();
-    }
+}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
+@Bean
+public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+}
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
@@ -104,5 +104,5 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
-    }
+        }
 }

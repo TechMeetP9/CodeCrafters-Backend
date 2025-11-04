@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
 @Table(name = "events")
@@ -18,8 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Event {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -40,7 +39,8 @@ public class Event {
 
     @Column(nullable = false)
     private Integer capacity;
-
+    
+    @Builder.Default
     @Column(name = "current_attendees", nullable = false)
     private Integer currentAttendees = 0;
 
