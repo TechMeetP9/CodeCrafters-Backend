@@ -13,4 +13,9 @@ public class LoginRequest {
     @NotBlank(message = "Email cannot be blank.")
     @Size(max = 30, message = "Email cannot exceed 100 characters.")
     private String email;
+
+    public void setUserName(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setUserName'");
+    }
 }
