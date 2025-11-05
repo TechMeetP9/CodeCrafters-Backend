@@ -47,11 +47,8 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Optional<User> login(LoginRequest request) {
-        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
-        if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
-            return userOpt;
-        }
-        return Optional.empty();
+        return userRepository.findByEmail(request.getEmail())
+                .filter(user -> passwordEncoder.matches(request.getPassword(), user.getPassword()));
     }
 
     @Override

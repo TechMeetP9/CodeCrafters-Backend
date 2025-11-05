@@ -18,4 +18,5 @@ public class EventResponse {
     private UUID categoryId; 
     private String categoryName; 
     private UUID userId; 
+    private String imageUrl;
 }

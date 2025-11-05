@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${jwt.secret}")
@@ -28,6 +28,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // Genera token JWT a partir de la autenticación
     public String generateJwtToken(Authentication authentication) {
         UsersDetailsImpl userPrincipal = (UsersDetailsImpl) authentication.getPrincipal();
 
@@ -35,91 +36,83 @@ public class JwtUtils {
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
-                .claim("userId", userPrincipal.getId()) 
-                .claim("email", userPrincipal.getEmail()) 
-                .issuedAt(now)
-                .expiration(expiryDate)
+                .setSubject(userPrincipal.getUsername())
+                .claim("userId", userPrincipal.getId())
+                .claim("email", userPrincipal.getEmail())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
                 .signWith(getSigningKey())
                 .compact();
     }
 
+    // Genera token JWT solo con el username
     public String generateTokenFromUsername(String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         return Jwts.builder()
-                .subject(username)
-                .issuedAt(now)
-                .expiration(expiryDate)
+                .setSubject(username)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
                 .signWith(getSigningKey())
                 .compact();
     }
 
+    // Obtiene username desde JWT
     public String getUsernameFromJwtToken(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey())
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload()
+                .parseClaimsJws(token)
+                .getBody()
                 .getSubject();
     }
 
-
-    public Long getUserIdFromJwtToken(String token) {
+    // Obtiene userId desde JWT
+    public Object getUserIdFromJwtToken(String token) {
         Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey())
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
-        
-        Object userId = claims.get("userId");
-        if (userId instanceof Integer) {
-            return ((Integer) userId).longValue();
-        }
-        return (Long) userId;
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("userId");
     }
 
-
+    // Obtiene email desde JWT
     public String getEmailFromJwtToken(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
+        Claims claims = Jwts.parser()
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .get("email", String.class);
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("email", String.class);
     }
 
+    // Valida el token JWT
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser()
-                    .verifyWith(getSigningKey())
+                    .setSigningKey(getSigningKey())
                     .build()
-                    .parseSignedClaims(authToken);
+                    .parseClaimsJws(authToken);
             return true;
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid Token JWT {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            logger.error("Expired Token JWT: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported Token JWT: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
-        } catch (io.jsonwebtoken.security.SignatureException e) {
-            logger.error("Invalid signature JWT: {}", e.getMessage());
+        } catch (JwtException | IllegalArgumentException e) {
+            logger.error("JWT validation failed: {}", e.getMessage());
         }
         return false;
     }
 
+    // Obtiene fecha de expiración desde JWT
     public Date getExpirationDateFromJwtToken(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey())
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload()
+                .parseClaimsJws(token)
+                .getBody()
                 .getExpiration();
     }
 
+    // Verifica si el token expiró
     public boolean isTokenExpired(String token) {
         try {
             Date expiration = getExpirationDateFromJwtToken(token);

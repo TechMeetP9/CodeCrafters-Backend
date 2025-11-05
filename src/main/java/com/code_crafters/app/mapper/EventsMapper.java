@@ -19,6 +19,7 @@ public interface EventsMapper {
     @Mapping(target = "userId", source = "creator.id")
     @Mapping(target = "categoryName", source = "category.name")
     @Mapping(target = "location", source = "location.name")
+    @Mapping(target = "imageUrl", source = "imageUrl")
     EventResponse toDto(Event event);
 
     void updateEntityFromDto(EventsRequest dto, @MappingTarget Event entity);
