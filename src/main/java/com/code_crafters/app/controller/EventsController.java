@@ -7,7 +7,10 @@ import com.code_crafters.app.service.interfaces.EventsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import com.code_crafters.app.entity.Event;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,15 +30,26 @@ public class EventsController {
                 .<ResponseEntity<?>>map(event -> ResponseEntity.ok(eventsMapper.toDto(event)))
                 .orElseGet(() -> ResponseEntity.status(404).body(Map.of("message", "Event not found")));
     }
-
-    @GetMapping
-    public ResponseEntity<List<EventResponse>> getAllEvents() {
-        List<EventResponse> events = eventsService.findAll()
-                .stream()
-                .map(eventsMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(events);
-    }
+@GetMapping
+public ResponseEntity<Map<String, Object>> getAllEvents(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "12") int size) {
+    
+    Page<Event> eventsPage = eventsService.findAllPaginated(page, size);
+    
+    List<EventResponse> events = eventsPage.getContent()
+            .stream()
+            .map(eventsMapper::toDto)
+            .collect(Collectors.toList());
+    
+    Map<String, Object> response = new HashMap<>();
+    response.put("events", events);
+    response.put("currentPage", eventsPage.getNumber() + 1); // Frontend usa páginas desde 1
+    response.put("totalPages", eventsPage.getTotalPages());
+    response.put("totalItems", eventsPage.getTotalElements());
+    
+    return ResponseEntity.ok(response);
+}
 
     @PostMapping
     public ResponseEntity<?> createEvent(@RequestBody EventsRequest request) {

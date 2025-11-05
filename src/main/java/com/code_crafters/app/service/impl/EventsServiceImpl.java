@@ -17,6 +17,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +52,7 @@ public class EventsServiceImpl implements EventsService {
         event.setCreator(user);
         event.setCategory(category);
         event.setLocation(location);
-        event.setCurrentAttendees(0); // Inicializar en 0
+        event.setCurrentAttendees(0); 
 
         Event savedEvent = eventsRepository.save(event);
         return eventsMapper.toDto(savedEvent);
@@ -65,6 +68,13 @@ public class EventsServiceImpl implements EventsService {
     @Transactional(readOnly = true)
     public List<Event> findAll() {
         return eventsRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Event> findAllPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return eventsRepository.findAll(pageable);
     }
 
     @Override
