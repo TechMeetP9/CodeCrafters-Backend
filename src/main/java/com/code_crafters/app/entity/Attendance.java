@@ -5,7 +5,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "attendance")
@@ -16,8 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Attendance {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.UUID) 
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
