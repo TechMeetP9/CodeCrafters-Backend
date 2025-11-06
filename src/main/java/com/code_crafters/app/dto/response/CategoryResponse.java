@@ -1,14 +1,17 @@
 package com.code_crafters.app.dto.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lombok.*;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class CategoryResponse {
     private UUID id;
     private String name;
+    private LocalDateTime createdAt;
 }

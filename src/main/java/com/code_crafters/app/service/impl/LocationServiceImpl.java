@@ -6,7 +6,6 @@ import com.code_crafters.app.entity.Location;
 import com.code_crafters.app.mapper.LocationMapper;
 import com.code_crafters.app.repository.LocationRepository;
 import com.code_crafters.app.service.interfaces.LocationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,36 +13,35 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
-
-    private final LocationRepository locationRepository;
-    private final LocationMapper locationMapper;
-
+    
+    private LocationRepository locationRepository;
+    private LocationMapper locationMapper;
+    
+    public LocationServiceImpl(LocationRepository locationRepository,
+                              LocationMapper locationMapper) {
+        this.locationRepository = locationRepository;
+        this.locationMapper = locationMapper;
+    }
+    
     @Override
-    public LocationResponse create(LocationRequest request) {
-        locationRepository.findByName(request.getName()).ifPresent(l -> {
-            throw new IllegalArgumentException("Location already exists: " + l.getName());
-        });
-
+    public List<LocationResponse> getAllLocations() {
+        return locationRepository.findAll().stream()
+            .map(locationMapper::toResponse)
+            .collect(Collectors.toList());
+    }
+    
+    @Override
+    public LocationResponse getLocationById(UUID id) {
+        Location location = locationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Location not found with id: " + id));
+        return locationMapper.toResponse(location);
+    }
+    
+    @Override
+    public LocationResponse createLocation(LocationRequest request) {
         Location location = locationMapper.toEntity(request);
-        Location saved = locationRepository.save(location);
-        return locationMapper.toDto(saved);
-    }
-
-    @Override
-    public List<LocationResponse> getAll() {
-        return locationRepository.findAll()
-                .stream()
-                .map(locationMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public void delete(UUID id) {
-        if (!locationRepository.existsById(id)) {
-            throw new IllegalArgumentException("Location not found with ID: " + id);
-        }
-        locationRepository.deleteById(id);
+        Location savedLocation = locationRepository.save(location);
+        return locationMapper.toResponse(savedLocation);
     }
 }

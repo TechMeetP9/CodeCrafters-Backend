@@ -1,17 +1,13 @@
 package com.code_crafters.app.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginRequest {
-    @NotBlank(message = "Password cannot be blank.")
-    @Size(max = 25, message = "Password cannot exceed 25 characters.")
+    private String username;
     private String password;
-
-    @NotBlank(message = "Email cannot be blank.")
-    @Size(max = 100, message = "Email cannot exceed 100 characters.")
-    private String email;
-    }
-
+}

@@ -2,69 +2,46 @@ package com.code_crafters.app.controller;
 
 import com.code_crafters.app.dto.request.CategoryRequest;
 import com.code_crafters.app.dto.response.CategoryResponse;
-import com.code_crafters.app.mapper.CategoryMapper;
 import com.code_crafters.app.service.interfaces.CategoryService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.code_crafters.app.entity.Category;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/categories")
-@RequiredArgsConstructor
 public class CategoryController {
-
-    private final CategoryService categoryService;
-    private final CategoryMapper categoryMapper;
-
+    
+    private CategoryService categoryService;
+    
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+    
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> getAll() {
-        List<CategoryResponse> list = categoryService.findAll()
-                .stream()
-                .map(categoryMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
+        return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
     }
-
+    
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
-        return categoryService.findById(id)
-                .<ResponseEntity<?>>map(cat -> ResponseEntity.ok(categoryMapper.toDto(cat)))
-                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("message", "Category not found")));
+    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable UUID id) {
+        return new ResponseEntity<>(categoryService.getCategoryById(id), HttpStatus.OK);
     }
-
+    
+    @GetMapping("/name/{name}")
+    public ResponseEntity<CategoryResponse> getCategoryByName(@PathVariable String name) {
+        return new ResponseEntity<>(categoryService.getCategoryByName(name), HttpStatus.OK);
+    }
+    
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CategoryRequest request) {
+    public ResponseEntity<?> createCategory(@RequestBody CategoryRequest request) {
         try {
-            Category created = categoryService.create(request);
-            return ResponseEntity.ok(categoryMapper.toDto(created));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody CategoryRequest request) {
-        try {
-            Category updated = categoryService.update(id, request);
-            return ResponseEntity.ok(categoryMapper.toDto(updated));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
-        try {
-            categoryService.delete(id);
-            return ResponseEntity.ok(Map.of("message", "Category deleted successfully"));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
+            CategoryResponse newCategory = categoryService.createCategory(request);
+            return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

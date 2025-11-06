@@ -1,41 +1,24 @@
-package com.code_crafters.app.dto.response;
+package com.code_crafters.app.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventResponse {
-    private UUID id;
+public class EventRequest {
     private String title;
     private String description;
     private LocalDate eventDate;
     private LocalTime eventTime;
     private String duration;
     private Integer capacity;
-    private Integer currentAttendees;
     private String imageUrl;
-    
-
     private UUID categoryId;
-    private String categoryName;
-    
-
     private UUID locationId;
-    private String locationName;
-    private String locationAddress;
-
-    private UUID creatorId;
-    private String creatorUsername;
-    private String creatorName;
-    
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
