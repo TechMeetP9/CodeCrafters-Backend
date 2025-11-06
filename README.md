@@ -113,12 +113,12 @@ cd CodeCrafters-Backend
 
 ### 2. Configurar la base de datos
 ```sql
-CREATE DATABASE codecrafters_db;
+CREATE DATABASE codehappen;
 ```
 
 ### 3. Configurar el archivo `.env` o `application.properties`
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/codecrafters_db
+spring.datasource.url=jdbc:postgresql://localhost:5432/codehappen
 spring.datasource.username=postgres
 spring.datasource.password=tu_contraseña
 spring.jpa.hibernate.ddl-auto=update
@@ -168,30 +168,34 @@ CODECRAFTERS-BACKEND/
 │   │   ├── java/com/code_crafters/app/
 │   │   │   ├── controller/
 │   │   │   │   ├── AuthController.java
-│   │   │   │   ├── UsersController.java 
-│   │   │   │   ├── EventsController.java 
+│   │   │   │   ├── UserController.java
+│   │   │   │   ├── EventController.java
 │   │   │   │   ├── AttendanceController.java
-│   │   │   │   └── CategoryController.java
+│   │   │   │   ├── CategoryController.java
+│   │   │   │   └── LocationController.java       
 │   │   │   │
 │   │   │   ├── dto/
 │   │   │   │   ├── request/
 │   │   │   │   │   ├── LoginRequest.java
 │   │   │   │   │   ├── RegisterRequest.java
-│   │   │   │   │   ├── EventsRequest.java 
+│   │   │   │   │   ├── UpdateUserRequest.java    
 │   │   │   │   │   ├── AttendanceRequest.java
-│   │   │   │   │   └── CategoryRequest.java
+│   │   │   │   │   ├── CategoryRequest.java
+│   │   │   │   │   └── LocationRequest.java     
 │   │   │   │   └── response/
 │   │   │   │       ├── JwtResponse.java
-│   │   │   │       ├── UsersResponse.java 
-│   │   │   │       ├── EventsResponse.java 
+│   │   │   │       ├── UserResponse.java
+│   │   │   │       ├── EventResponse.java
 │   │   │   │       ├── AttendanceResponse.java
-│   │   │   │       └── CategoryResponse.java
+│   │   │   │       ├── CategoryResponse.java
+│   │   │   │       └── LocationResponse.java     
 │   │   │   │
 │   │   │   ├── entity/
-│   │   │   │   ├── Users.java 
-│   │   │   │   ├── Events.java 
+│   │   │   │   ├── User.java
+│   │   │   │   ├── Event.java
 │   │   │   │   ├── Attendance.java
-│   │   │   │   └── Category.java
+│   │   │   │   ├── Category.java
+│   │   │   │   └── Location.java                
 │   │   │   │
 │   │   │   ├── exception/
 │   │   │   │   ├── GlobalExceptionHandler.java
@@ -200,48 +204,55 @@ CODECRAFTERS-BACKEND/
 │   │   │   │   └── UnauthorizedException.java
 │   │   │   │
 │   │   │   ├── mapper/
-│   │   │   │   ├── UsersMapper.java 
-│   │   │   │   ├── EventsMapper.java 
+│   │   │   │   ├── UserMapper.java
+│   │   │   │   ├── EventsMapper.java
 │   │   │   │   ├── AttendanceMapper.java
-│   │   │   │   └── CategoryMapper.java
+│   │   │   │   ├── CategoryMapper.java
+│   │   │   │   └── LocationMapper.java             
 │   │   │   │
 │   │   │   ├── repository/
-│   │   │   │   ├── UsersRepository.java 
-│   │   │   │   ├── EventsRepository.java 
+│   │   │   │   ├── UserRepository.java
+│   │   │   │   ├── EventRepository.java
 │   │   │   │   ├── AttendanceRepository.java
-│   │   │   │   └── CategoryRepository.java
+│   │   │   │   ├── CategoryRepository.java
+│   │   │   │   └── LocationRepository.java        
 │   │   │   │
-│   │   │   ├── security/
-│   │   │   │   ├── JwtAuthFilter.java
-│   │   │   │   ├── JwtUtils.java
-│   │   │   │   ├── UsersDetailsImpl.java 
-│   │   │   │   ├── UsersDetailsServiceImpl.java 
-│   │   │   │   └── WebSecurityConfig.java
+│   │   │   ├── security/                         
+│   │   │   │   ├── filter/                       
+│   │   │   │   │   ├── JWTAuthentication.java   
+│   │   │   │   │   └── JWTAuthorization.java     
+│   │   │   │   ├── CustomAuthenticationManager.java
+│   │   │   │   ├── SecurityConstants.java
+│   │   │   │   ├── SpringConfig.java
+│   │   │   │   └── UserDetail.java
+│   │   │   │
+│   │   │   ├── seeder/                         
+│   │   │   │   └── DatabaseSeeder.java           
 │   │   │   │
 │   │   │   ├── service/
 │   │   │   │   ├── interfaces/
-│   │   │   │   │   ├── UsersService.java 
-│   │   │   │   │   ├── EventsService.java 
+│   │   │   │   │   ├── UserService.java
+│   │   │   │   │   ├── EventService.java
 │   │   │   │   │   ├── AttendanceService.java
-│   │   │   │   │   └── CategoryService.java
+│   │   │   │   │   ├── CategoryService.java
+│   │   │   │   │   └── LocationService.java       
 │   │   │   │   └── impl/
-│   │   │   │       ├── UsersServiceImpl.java 
-│   │   │   │       ├── EventsServiceImpl.java 
+│   │   │   │       ├── UserServiceImpl.java
+│   │   │   │       ├── EventServiceImpl.java
 │   │   │   │       ├── AttendanceServiceImpl.java
-│   │   │   │       └── CategoryServiceImpl.java
+│   │   │   │       ├── CategoryServiceImpl.java
+│   │   │   │       └── LocationServiceImpl.java     
 │   │   │   │
 │   │   │   ├── util/
 │   │   │   │   └── DateUtils.java
 │   │   │   │
-│   │   │   └── CodeCraftersApplication.java 
+│   │   │   └── CodeCraftersApplication.java
 │   │   │
 │   │   └── resources/
-│   │       ├── application.properties
-│   │       ├── data.sql
-│   │       └── schema.sql
+│   │       └── application.properties          
 │   │
 │   └── test/
-│       └── java/com/code_crafters/app/ 
+│       └── java/com/code_crafters/app/
 │           └── CodeCraftersApplicationTests.java
 │
 ├── target/
@@ -291,4 +302,5 @@ El proyecto se desarrolló bajo **metodología ágil (Scrum)** en un sprint de d
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT.
+
 
