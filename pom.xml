@@ -86,11 +86,11 @@
         </dependency>
 
         <!-- MapStruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
-        </dependency>
+<dependency>
+    <groupId>org.mapstruct</groupId>
+    <artifactId>mapstruct</artifactId>
+    <version>1.5.5.Final</version>
+</dependency>
 
         <!-- 🔧 Lombok + MapStruct binding (muy importante) -->
         <dependency>
