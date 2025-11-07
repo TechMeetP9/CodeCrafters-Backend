@@ -84,14 +84,8 @@
             <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- MapStruct -->
-<dependency>
-    <groupId>org.mapstruct</groupId>
-    <artifactId>mapstruct</artifactId>
-    <version>1.5.5.Final</version>
-</dependency>
-
+        
+       
         <!-- 🔧 Lombok + MapStruct binding (muy importante) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -99,6 +93,12 @@
             <version>0.2.0</version>
             <scope>provided</scope>
         </dependency>
+         <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>
+
 
         <!-- Test -->
         <dependency>
